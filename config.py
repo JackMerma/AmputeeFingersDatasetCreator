@@ -3,6 +3,9 @@ import argparse
 
 SOURCE_TYPE_OPTIONS = ["img", "video"]
 POST_RAISE_MESSAGE = "Use '--help' for more information."
+DATASETS_FOLDER = "datasets"
+TESTING_FILE_NAME = "test_image"
+TESTING_FILE_EXTENSION = "png"
 
 
 def load_parser():
