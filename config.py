@@ -1,4 +1,5 @@
 import argparse
+import numpy as np
 
 
 SOURCE_TYPE_OPTIONS = ["img", "video"]
@@ -6,6 +7,8 @@ POST_RAISE_MESSAGE = "Use '--help' for more information."
 DATASETS_FOLDER = "datasets"
 TESTING_FILE_NAME = "test_image"
 TESTING_FILE_EXTENSION = "png"
+DEFAULT_MIN_RANGE = (40, 25, 25)
+DEFAULT_MAX_RANGE = (86, 255, 255)
 
 
 def load_parser():
