@@ -14,4 +14,7 @@ def load_parser():
     # Source type
     parser.add_argument('-t', '--type', type=str, required=False, help="define source type to process. Options:\n[img] for single image file\n[video] for video files")
 
+    # File location
+    parser.add_argument('-f', '--file', type=str, required=False, help="define source file path.")
+
     return parser.parse_args()
