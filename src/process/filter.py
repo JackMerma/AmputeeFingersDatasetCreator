@@ -9,8 +9,8 @@ def read_image(file_path):
     return image
 
 
-def show_image(image):
-    image_path = os.path.join(DATASETS_FOLDER, f"{TESTING_FILE_NAME}.{TESTING_FILE_EXTENSION}")
+def show_image(image, file_name=TESTING_FILE_NAME):
+    image_path = os.path.join(DATASETS_FOLDER, f"{file_name}.{TESTING_FILE_EXTENSION}")
     cv2.imwrite(image_path, image)
 
     # Showing the image using open command
@@ -18,8 +18,5 @@ def show_image(image):
 
 
 def mask(image, min_range, max_range):
-    print(image.shape)
-    print(min_range)
-    print(max_range)
     mask = cv2.inRange(image, min_range, max_range)
     return mask
