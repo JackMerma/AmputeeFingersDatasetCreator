@@ -15,3 +15,11 @@ def validate_file_path(file_path):
 
     if not os.path.isfile(file_path):
         raise Exception(f"Invalid file path [{file_path}]. {POST_RAISE_MESSAGE}")
+
+
+def get_aoi_limits():
+    return AOI_MIN_RANGE, AOI_MAX_RANGE
+
+
+def get_eoi_limits():
+    return EOI_MIN_RANGE, EOI_MAX_RANGE
