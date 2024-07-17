@@ -7,8 +7,14 @@ POST_RAISE_MESSAGE = "Use '--help' for more information."
 DATASETS_FOLDER = "datasets"
 TESTING_FILE_NAME = "test_image"
 TESTING_FILE_EXTENSION = "png"
-DEFAULT_MIN_RANGE = (40, 25, 25)
-DEFAULT_MAX_RANGE = (86, 255, 255)
+
+# Area Of Interest Limits (AOI)
+AOI_MIN_RANGE = (36, 100, 25)
+AOI_MAX_RANGE = (86, 255, 255)
+
+# Element Of Interest Limist (EOI)
+EOI_MIN_RANGE = (88, 20, 200) # 90-20-25
+EOI_MAX_RANGE = (110, 255, 255)
 
 
 def load_parser():
