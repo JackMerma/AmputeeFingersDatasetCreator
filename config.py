@@ -13,8 +13,10 @@ AOI_MIN_RANGE = (36, 100, 25)
 AOI_MAX_RANGE = (86, 255, 255)
 
 # Element Of Interest Limist (EOI)
-EOI_MIN_RANGE = (88, 20, 200) # 90-20-25
+EOI_MIN_RANGE = (88, 20, 190) # 90-20-25
 EOI_MAX_RANGE = (110, 255, 255)
+
+MAIN_PIXEL_COLOR = (0, 0, 255) # Red in BGR
 
 
 def load_parser():
