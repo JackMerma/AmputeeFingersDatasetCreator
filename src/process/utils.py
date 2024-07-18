@@ -1,6 +1,9 @@
 from config import *
 import os
+import cv2
+import json
 from src.process.filter import *
+from src.process.draw import *
 
 
 def validate_source_type(src_type):
@@ -26,18 +29,48 @@ def get_eoi_limits():
     return EOI_MIN_RANGE, EOI_MAX_RANGE
 
 
-def label(image):
+def save_json(data, file_name):
+    json_object = json.dumps(data, indent=2)
+
+    # Saving file
+    completed_path = os.path.join(DATASETS_FOLDER, f"{file_name}.json")
+
+    with open(completed_path, "w") as outfile:
+        outfile.write(json_object)
+
+
+def label(image, path):
     # Applying filter for AOI
     aoi_min, aoi_max = get_aoi_limits()
     aoi_mask = mask(image, aoi_min, aoi_max)
 
     # Getting aoi position and boundingbox
     aoi_mask_middle_point, aoi_mask_boundingbox = get_middle_point_and_boundingbox(aoi_mask)
-    print("middle point: ", aoi_mask_middle_point)
-    print("bounding box: ", aoi_mask_boundingbox)
-    show_image(aoi_mask, "img2")
+
+    #bgr_image = swap_hsv2bgr(image)
+
+    # Drawing middle point in the image
+    #aoi_middle = draw_circle(bgr_image, aoi_mask_middle_point)
+
+    # Drawing boundingbox in the image
+    #aoi_boundinbox = draw_boundingbox(bgr_image, aoi_mask_boundingbox)
 
     # Applying filter for EOI
-    eoi_min, eoi_max = get_eoi_limits()
-    eoi_mask = mask(image, eoi_min, eoi_max)
-    #show_image(eoi_mask, "img3")
+    #eoi_min, eoi_max = get_eoi_limits()
+    #eoi_mask = mask(image, eoi_min, eoi_max)
+
+    # Saving json file
+
+    file_name, extension = os.path.splitext(os.path.basename(path))
+
+    data = {
+            "file_path": path,
+            "file_name": file_name,
+            "width": len(image),
+            "height": len(image[0]),
+            "aoi_data": {
+                "middle_point": aoi_mask_middle_point,
+                "boudingbox": aoi_mask_boundingbox
+                }
+            }
+    save_json(data, file_name)
