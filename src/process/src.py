@@ -1,4 +1,3 @@
-from src.process.filter import *
 from src.process.utils import *
 
 
@@ -15,7 +14,8 @@ def process(src_type, file_path):
         # TODO: Implement processing video logic
         pass
     elif src_type == "img":
+        # Loading image
         image = read_image(file_path)
-        show_image(image)
-        filtered_image = mask(image, DEFAULT_MIN_RANGE, DEFAULT_MAX_RANGE)
-        show_image(filtered_image)
+
+        # Labeling
+        label(image, file_path)
