@@ -18,6 +18,11 @@ EOI_MAX_RANGE = (110, 255, 255)
 
 MAIN_PIXEL_COLOR = (0, 0, 255) # Red in BGR
 
+# GUI configs
+APP_TITLE = "Amputee Fingers Dataset Creator"
+WINDOWS_GEOMETRY_HEIGHT = 700
+WINDOWS_GEOMETRY_WIDTH = 500
+
 
 def load_parser():
     parser = argparse.ArgumentParser(description="Amputee Finger Dataset Creator description...")
