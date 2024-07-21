@@ -1,4 +1,5 @@
 from config import *
+from src.process.src import *
 
 
 def main():
@@ -6,7 +7,8 @@ def main():
     # Getting parser
     args = load_parser()
 
-    #TODO: Define parsers args and actions using src/ files
+    if args.process:
+        process(src_type=args.type, file_path=args.file)
 
 
 if __name__ == "__main__":
