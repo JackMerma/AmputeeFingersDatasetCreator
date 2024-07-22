@@ -7,22 +7,59 @@ from src.process.draw import *
 
 
 def filter_images_and_videos(folder):
+
     image_ex = [".png", ".jpg", ".jpeg"]
     video_ex = [".mp4"]
 
     image_paths = []
     video_paths = []
 
-    for file in os.listdir(folder):
-        file_name, file_ex = os.path.splitext(file)
+    if os.path.exists(folder):
+        for file in os.listdir(folder):
+            file_name, file_ex = os.path.splitext(file)
 
-        if file_ex in image_ex:
-            image_paths.append(file)
+            if file_ex in image_ex:
+                image_paths.append(file)
 
-        if file_ex in video_ex:
-            video_paths.append(file)
+            if file_ex in video_ex:
+                video_paths.append(file)
 
     return image_paths, video_paths
+
+
+def convert_video_to_images(base_path, file):
+
+    completed_path = os.path.join(base_path, file)
+    new_images = []
+
+    # Reading video file
+    cap = cv2.VideoCapture(completed_path)
+    if not cap.isOpened():
+        return
+
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+    # Converting to frames and saaving as images
+    frame_count = 0
+
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        # Generating file path
+        video_file_name, _ = os.path.splitext(file)
+        frame_file_name = f"{video_file_name}{frame_count}.png"
+        frame_file = os.path.join(base_path, frame_file_name)
+        new_images.append(frame_file_name)
+
+        # Saving the file
+        cv2.imwrite(frame_file, frame)
+        frame_count += 1
+
+    cap.release()
+
+    return new_images
 
 
 def validate_source_type(src_type):
