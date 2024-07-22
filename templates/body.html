@@ -2,7 +2,7 @@
     <div class="col-sm-3 pr-0">
 	<div class="h-50 pt-2 pl-2 w-100">
 	    <div class="card border-primary h-100">
-		<div class="card-body text-primary text-center">
+		<div class="card-body text-primary text-center" {% if context.files != None %}style="overflow-y: scroll; height:400px;"{% endif %}>
 		    {% if context.files == None %}
 		    <div class="container mt-5">
 			<h2 class="text-center">Drag & Drop File Upload</h2>
@@ -19,9 +19,9 @@
 		    </script>
 		    {% else %}
 		    <ul class="list-group list-group-light">
-		    {% for image_path in context.files %}
-		    <li class="list-group-item border-0 rounded-4 list-group-item-info mb-2"><p class="h6 b-0 m-0">{{image_path}}</p></li>
-		    {% endfor %}
+			{% for image_path in context.files %}
+			<li class="list-group-item border-0 rounded-4 list-group-item-info mb-2"><p class="h6 b-0 m-0">{{image_path}}</p></li>
+			{% endfor %}
 		    </ul>
 		    {% endif %}
 		</div>
@@ -83,6 +83,7 @@
 		<div class="card-body text-primary h-100 w-100 p-0">
 		    <div class="h-75 w-100 pt-2 pl-2 pr-2">
 			<div class="card border-primary h-100 w-100 m-0 p-0">
+			    hola
 			</div>
 		    </div>
 		    <div class="h-25 p-2 w-100">
