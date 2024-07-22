@@ -20,7 +20,7 @@ MAIN_PIXEL_COLOR = (0, 0, 255) # Red in BGR
 
 # GUI configs
 APP_TITLE = "Amputee Fingers Dataset Creator"
-UPLOAD_FOLDER_BASE = "data"
+UPLOAD_FOLDER_BASE = "static"
 UPLOAD_FOLDER_MAIN = "upload"
 TEMP_FOLDER = "temp"
 
