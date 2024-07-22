@@ -29,10 +29,35 @@ def upload_file():
     return jsonify({'message': 'Files successfully uploaded'}), 200
 
 
+@app.route("/run", methods=["GET"])
+def run_solution():
+    middle_aoi = request.args.get('middleAOIswitch')
+    aoi_bounding_box = request.args.get('boundingboxAOIswitch')
+    print(middle_aoi)
+    print(aoi_bounding_box)
+
+    context = {
+            "checkboxes" : {
+                "middle_aoi": middle_aoi is not None,
+                "aoi_bounding_box": aoi_bounding_box is not None,
+                }
+            }
+    print(context)
+
+    return render_template('index.html', context=context)
+
+
 @app.route("/")
 def index():
 
-    return render_template("index.html")
+    context = {
+            "checkboxes" : {
+                "middle_aoi": False,
+                "aoi_bounding_box": False,
+                }
+            }
+
+    return render_template("index.html", context=context)
     """
     # Getting parser
     args = load_parser()

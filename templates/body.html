@@ -25,20 +25,20 @@
 		<div class="card border-primary h-100">
 		    <div class="card-body text-primary m-0 p-0">
 			<div class="card-body text-primary text-center p-0 m-0">
-			    <form id="runSolution" method="get" class"p-0 m-0">
+			    <form id="runSolution" method="get" action="/run">
 				<div class="card border-primary m-2">
 				    <div class="card-body text-primary">
 					<div class="form-check form-switch">
-					    <input class="form-check-input" type="checkbox" role="switch" id="flexswitchcheckchecked" checked>
-					    <label class="form-check-label" for="flexswitchcheckchecked">Middle AOI point</label>
+					    <input class="form-check-input" type="checkbox" role="switch" id="middleAOIswitch" name="middleAOIswitch" {% if context.checkboxes.middle_aoi %}checked{% endif %}>
+					    <label class="form-check-label" for="middleAOIswitch">Middle AOI point</label>
 					</div>
 				    </div>
 				</div>
 				<div class="card border-primary m-2">
 				    <div class="card-body text-primary">
 					<div class="form-check form-switch">
-					    <input class="form-check-input" type="checkbox" role="switch" id="flexswitchcheckchecked" checked>
-					    <label class="form-check-label" for="flexswitchcheckchecked">AOI bounding box</label>
+					    <input class="form-check-input" type="checkbox" role="switch" id="boundingboxAOIswitch" name="boundingboxAOIswitch" {% if context.checkboxes.aoi_bounding_box %}checked{% endif %}>
+					    <label class="form-check-label" for="boundingboxAOIswitch">AOI bounding box</label>
 					</div>
 				    </div>
 				</div>
