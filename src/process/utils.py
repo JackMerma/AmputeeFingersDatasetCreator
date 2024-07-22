@@ -103,22 +103,25 @@ def label(image, path):
     # Getting aoi position and boundingbox
     aoi_mask_middle_point, aoi_mask_boundingbox = get_middle_point_and_boundingbox(aoi_mask)
 
-    #bgr_image = swap_hsv2bgr(image)
+    bgr_image = swap_hsv2bgr(image)
 
-    # Drawing middle point in the image
-    #aoi_middle = draw_circle(bgr_image, aoi_mask_middle_point)
+    # Writting middle point in the image
+    aoi_middle = draw_circle(bgr_image, aoi_mask_middle_point)
 
-    # Drawing boundingbox in the image
-    #aoi_boundinbox = draw_boundingbox(bgr_image, aoi_mask_boundingbox)
+    # Writting boundingbox in the image
+    aoi_boundingbox = draw_boundingbox(aoi_middle, aoi_mask_boundingbox)
 
     # Applying filter for EOI
     #eoi_min, eoi_max = get_eoi_limits()
     #eoi_mask = mask(image, eoi_min, eoi_max)
 
-    # Saving json file
-
+    # Saving processed image in the temp/ folder
     file_name, extension = os.path.splitext(os.path.basename(path))
 
+    COMPLETED_TEMP_PATH = os.path.join(UPLOAD_FOLDER_BASE, TEMP_FOLDER)
+    write_image(aoi_boundingbox, os.path.join(COMPLETED_TEMP_PATH, f"{file_name}.AOI{extension}"))
+
+    # Saving json file
     data = {
             "file_path": path,
             "file_name": file_name,
