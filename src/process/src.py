@@ -1,7 +1,7 @@
 from src.process.utils import *
 
 
-def process(src_type, file_path):
+def process(src_type, file_path, m_aoi=True, bb_aoi=True):
 
     # Validating source type
     validate_source_type(src_type)
@@ -18,4 +18,4 @@ def process(src_type, file_path):
         image = read_image(file_path)
 
         # Labeling
-        label(image, file_path)
+        label(image, file_path, m_aoi=m_aoi, bb_aoi=bb_aoi)

@@ -86,6 +86,10 @@ def get_eoi_limits():
 
 
 def save_json(data, file_name):
+    
+    if not os.path.exists(DATASETS_FOLDER):
+        os.makedirs(DATASETS_FOLDER)
+
     json_object = json.dumps(data, indent=2)
 
     # Saving file
@@ -95,7 +99,7 @@ def save_json(data, file_name):
         outfile.write(json_object)
 
 
-def label(image, path):
+def label(image, path, m_aoi=True, bb_aoi=True):
     # Applying filter for AOI
     aoi_min, aoi_max = get_aoi_limits()
     aoi_mask = mask(image, aoi_min, aoi_max)
@@ -105,11 +109,16 @@ def label(image, path):
 
     bgr_image = swap_hsv2bgr(image)
 
+
+    result_image = bgr_image.copy()
+
     # Writting middle point in the image
-    aoi_middle = draw_circle(bgr_image, aoi_mask_middle_point)
+    if m_aoi:
+        result_image = draw_circle(result_image, aoi_mask_middle_point)
 
     # Writting boundingbox in the image
-    aoi_boundingbox = draw_boundingbox(aoi_middle, aoi_mask_boundingbox)
+    if bb_aoi:
+        result_image = draw_boundingbox(result_image, aoi_mask_boundingbox)
 
     # Applying filter for EOI
     #eoi_min, eoi_max = get_eoi_limits()
@@ -119,7 +128,11 @@ def label(image, path):
     file_name, extension = os.path.splitext(os.path.basename(path))
 
     COMPLETED_TEMP_PATH = os.path.join(UPLOAD_FOLDER_BASE, TEMP_FOLDER)
-    write_image(aoi_boundingbox, os.path.join(COMPLETED_TEMP_PATH, f"{file_name}.AOI{extension}"))
+
+    if not os.path.exists(COMPLETED_TEMP_PATH):
+        os.makedirs(COMPLETED_TEMP_PATH)
+
+    write_image(result_image, os.path.join(COMPLETED_TEMP_PATH, f"{file_name}.AOI{extension}"))
 
     # Saving json file
     data = {
