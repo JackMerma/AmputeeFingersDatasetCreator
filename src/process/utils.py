@@ -62,6 +62,19 @@ def convert_video_to_images(base_path, file):
     return new_images
 
 
+def get_processed_files_paths():
+
+    paths = []
+
+    COMPLETED_TEMP_PATH = os.path.join(UPLOAD_FOLDER_BASE, TEMP_FOLDER)
+
+    if os.path.exists(COMPLETED_TEMP_PATH):
+        for path in os.listdir(COMPLETED_TEMP_PATH):
+            paths.append(os.path.join(TEMP_FOLDER, path))
+    
+    return paths
+
+
 def validate_source_type(src_type):
 
     if src_type == None:
