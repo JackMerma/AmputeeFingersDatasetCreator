@@ -10,6 +10,10 @@ def read_image(file_path):
     return image
 
 
+def write_image(image, file_path):
+    cv2.imwrite(file_path, image)
+
+
 def show_image(image, file_name=TESTING_FILE_NAME):
     image_path = os.path.join(DATASETS_FOLDER, f"{file_name}.{TESTING_FILE_EXTENSION}")
     cv2.imwrite(image_path, image)
