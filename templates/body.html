@@ -3,6 +3,7 @@
 	<div class="h-50 pt-2 pl-2 w-100">
 	    <div class="card border-primary h-100">
 		<div class="card-body text-primary text-center">
+		    {% if context.files == None %}
 		    <div class="container mt-5">
 			<h2 class="text-center">Drag & Drop File Upload</h2>
 			<div class="dropzone" id="dropzone">
@@ -16,6 +17,13 @@
 		    <script>
 			uploadFiles();
 		    </script>
+		    {% else %}
+		    <ul class="list-group list-group-light">
+		    {% for image_path in context.files %}
+		    <li class="list-group-item border-0 rounded-4 list-group-item-info mb-2"><p class="h6 b-0 m-0">{{image_path}}</p></li>
+		    {% endfor %}
+		    </ul>
+		    {% endif %}
 		</div>
 	    </div>
 	</div>
