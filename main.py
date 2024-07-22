@@ -5,11 +5,11 @@ from flask import Flask, render_template, jsonify, request
 import os
 
 app = Flask(__name__)
-UPLOAD_FOLDER = UPLOAD_FOLDER
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+COMPLETED_UPLOAD_PATH = os.path.join(UPLOAD_FOLDER_BASE, UPLOAD_FOLDER_MAIN)
+app.config["UPLOAD_PATH"] = COMPLETED_UPLOAD_PATH
 
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+if not os.path.exists(COMPLETED_UPLOAD_PATH):
+    os.makedirs(COMPLETED_UPLOAD_PATH)
 
 
 @app.route("/upload", methods=["POST"])
@@ -24,25 +24,25 @@ def upload_file():
             return jsonify({'message': 'No selected file'}), 400
 
         if file:
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+            file.save(os.path.join(app.config['UPLOAD_PATH'], file.filename))
 
     return jsonify({'message': 'Files successfully uploaded'}), 200
 
 
 @app.route("/run", methods=["GET"])
 def run_solution():
+
+    # Reading AOI configs
     middle_aoi = request.args.get('middleAOIswitch')
     aoi_bounding_box = request.args.get('boundingboxAOIswitch')
-    print(middle_aoi)
-    print(aoi_bounding_box)
 
+    # AOI configs persistance
     context = {
             "checkboxes" : {
                 "middle_aoi": middle_aoi is not None,
                 "aoi_bounding_box": aoi_bounding_box is not None,
                 }
             }
-    print(context)
 
     return render_template('index.html', context=context)
 
