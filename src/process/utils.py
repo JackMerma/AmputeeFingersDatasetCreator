@@ -6,6 +6,25 @@ from src.process.filter import *
 from src.process.draw import *
 
 
+def filter_images_and_videos(folder):
+    image_ex = [".png", ".jpg", ".jpeg"]
+    video_ex = [".mp4"]
+
+    image_paths = []
+    video_paths = []
+
+    for file in os.listdir(folder):
+        file_name, file_ex = os.path.splitext(file)
+
+        if file_ex in image_ex:
+            image_paths.append(file)
+
+        if file_ex in video_ex:
+            video_paths.append(file)
+
+    return image_paths, video_paths
+
+
 def validate_source_type(src_type):
 
     if src_type == None:
