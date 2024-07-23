@@ -1,6 +1,6 @@
 <div class="row h-100 w-100 p-0">
     <div class="col-sm-3 pr-0">
-	<div class="h-50 pt-2 pl-2 w-100">
+	<div class="h-75 pt-2 pl-2 w-100">
 	    <div class="card border-primary h-100">
 		<div class="card-body text-primary text-center" {% if context.files != None %}style="overflow-y: scroll; height:400px;"{% endif %}>
 		    {% if context.files == None %}
@@ -28,8 +28,8 @@
 	    </div>
 	</div>
 
-	<div class="h-50">
-	    <div class="h-75 pt-2 pl-2">
+	<div class="h-25">
+	    <div class="h-100 pt-2 pl-2 pb-2">
 		<div class="card border-primary h-100">
 		    <div class="card-body text-primary m-0 p-0">
 			<div class="card-body text-primary text-center p-0 m-0">
@@ -57,6 +57,7 @@
 		</div>
 	    </div>
 
+	    <!--
 	    <div class="h-25 pt-2 pl-2 pb-2">
 		<div class="card border-primary h-100">
 		    <div class="card-body text-primary">
@@ -74,6 +75,7 @@
 		    </div>
 		</div>
 	    </div>
+	    -->
 	</div>
     </div>
 
@@ -88,6 +90,20 @@
 		    </div>
 		    <div class="h-25 p-2 w-100">
 			<div class="card border-primary h-100 w-100 m-0 p-0">
+			    {% if context.processed_images != None %}
+			    {% for image_path in context.processed_images %}
+
+			    <div class="col-md-3 m-0 p-0">
+				<div class="card" style="height: 20rem;">
+				    <img class="card-img-top" src="{{ url_for('static', filename=image_path) }}" alt="Processed Image">
+				    <div class="card-body">
+				    </div>
+				</div>
+			    </div>
+
+			    {% endfor %}
+			    {% else %}
+			    {% endif %}
 			</div>
 		    </div>
 		</div>
