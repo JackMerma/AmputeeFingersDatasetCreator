@@ -6,6 +6,7 @@ import os
 
 app = Flask(__name__)
 COMPLETED_UPLOAD_PATH = os.path.join(UPLOAD_FOLDER_BASE, UPLOAD_FOLDER_MAIN)
+COMPLETED_TEMP_PATH = os.path.join(UPLOAD_FOLDER_BASE, TEMP_FOLDER)
 app.config["UPLOAD_PATH"] = COMPLETED_UPLOAD_PATH
 
 if not os.path.exists(COMPLETED_UPLOAD_PATH):
@@ -24,6 +25,8 @@ def upload_file():
             return jsonify({'message': 'No selected file'}), 400
 
         if file:
+            if not os.path.exists(COMPLETED_UPLOAD_PATH):
+                os.makedirs(COMPLETED_UPLOAD_PATH)
             file.save(os.path.join(app.config['UPLOAD_PATH'], file.filename))
 
     return jsonify({'message': 'Files successfully uploaded'}), 200
@@ -36,14 +39,37 @@ def run_solution():
     middle_aoi = request.args.get('middleAOIswitch')
     aoi_bounding_box = request.args.get('boundingboxAOIswitch')
 
-    # AOI configs persistance
+    ###################
+    # Processing data #
+    ###################
+
+    # 1. Filtering images and videos files
+    image_paths, videos_paths = filter_images_and_videos(COMPLETED_UPLOAD_PATH)
+
+    # 2. Process videos and transforming in images
+    for video_path in videos_paths:
+        image_paths += convert_video_to_images(COMPLETED_UPLOAD_PATH, video_path)
+
+    # 3. Process images
+    if middle_aoi != None or aoi_bounding_box != None:
+        for image_path in image_paths:
+            completed_path = os.path.join(COMPLETED_UPLOAD_PATH, image_path)
+            process(src_type="img", file_path=completed_path, m_aoi=middle_aoi != None, bb_aoi=aoi_bounding_box != None)
+
+    image_paths = None if image_paths != None and len(image_paths) == 0 else image_paths
+    image_completed_paths = get_processed_files_paths()
+    image_completed_paths = Nonen if len(image_completed_paths) == 0 else image_completed_paths
+
+    # AOI configs and image files configs persistance
     context = {
             "checkboxes" : {
                 "middle_aoi": middle_aoi is not None,
                 "aoi_bounding_box": aoi_bounding_box is not None,
-                }
+                },
+            "files": image_paths,
+            "processed_images": image_completed_paths
             }
-
+    
     return render_template('index.html', context=context)
 
 
@@ -54,19 +80,11 @@ def index():
             "checkboxes" : {
                 "middle_aoi": False,
                 "aoi_bounding_box": False,
-                }
+                },
+            "files": None,
             }
 
     return render_template("index.html", context=context)
-    """
-    # Getting parser
-    args = load_parser()
-
-    if args.process:
-        process(src_type=args.type, file_path=args.file)
-    else: # No args loads the user interface
-        gui()
-    """
 
 
 if __name__ == "__main__":
