@@ -52,6 +52,11 @@ def run_solution():
 
     # 3. Process images
     if middle_aoi != None or aoi_bounding_box != None:
+
+        # Deleting existing output images
+        remove_folder(os.path.join(UPLOAD_FOLDER_BASE, TEMP_FOLDER))
+
+        # Processing images
         for image_path in image_paths:
             completed_path = os.path.join(COMPLETED_UPLOAD_PATH, image_path)
             process(src_type="img", file_path=completed_path, m_aoi=middle_aoi != None, bb_aoi=aoi_bounding_box != None)

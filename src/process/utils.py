@@ -2,6 +2,7 @@ from config import *
 import os
 import cv2
 import json
+import shutil
 from src.process.filter import *
 from src.process.draw import *
 
@@ -110,6 +111,10 @@ def save_json(data, file_name):
 
     with open(completed_path, "w") as outfile:
         outfile.write(json_object)
+
+def remove_folder(folder_name):
+    if os.path.exists(folder_name):
+        shutil.rmtree(folder_name)
 
 
 def label(image, path, m_aoi=True, bb_aoi=True):
