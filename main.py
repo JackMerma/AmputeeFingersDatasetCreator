@@ -25,8 +25,9 @@ def upload_file():
             return jsonify({'message': 'No selected file'}), 400
 
         if file:
-            if not os.path.exists(COMPLETED_UPLOAD_PATH):
-                os.makedirs(COMPLETED_UPLOAD_PATH)
+            if os.path.exists(COMPLETED_UPLOAD_PATH):
+                remove_folder(os.path.join(UPLOAD_FOLDER_BASE, UPLOAD_FOLDER_MAIN))
+            os.makedirs(COMPLETED_UPLOAD_PATH)
             file.save(os.path.join(app.config['UPLOAD_PATH'], file.filename))
 
     return jsonify({'message': 'Files successfully uploaded'}), 200

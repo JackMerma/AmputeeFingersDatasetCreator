@@ -163,4 +163,8 @@ def label(image, path, m_aoi=True, bb_aoi=True):
                 "boudingbox": aoi_mask_boundingbox
                 }
             }
+
+    # Deleting existing labeling data
+    remove_folder(DATASETS_FOLDER)
+    # Saving data
     save_json(data, file_name)
