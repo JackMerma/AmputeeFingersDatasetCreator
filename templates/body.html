@@ -86,9 +86,9 @@
 		    {% if context.processed_images != None %}
 
 		    <div class="container mt-4">
-			<div class="row">
+			<div class="row ml-2 mr-2">
 			    {% for image_path in context.processed_images %}
-			    <div class="col-md-3 mb-4">
+			    <div class="col-md-3 mb-4 p-2" style="background-color: #D6EAF8;">
 				<div class="card">
 				    <img class="card-img-top img-fluid" src="{{ url_for('static', filename=image_path) }}" alt="Processed Image">
 				</div>
