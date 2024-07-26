@@ -20,17 +20,36 @@ def upload_file():
 
     files = request.files.getlist('file')
 
+    # Cleaning files data
+    if os.path.exists(COMPLETED_UPLOAD_PATH):
+        remove_folder(os.path.join(UPLOAD_FOLDER_BASE, UPLOAD_FOLDER_MAIN))
+    os.makedirs(COMPLETED_UPLOAD_PATH)
+
     for file in files:
         if file.filename == '':
             return jsonify({'message': 'No selected file'}), 400
 
         if file:
-            if os.path.exists(COMPLETED_UPLOAD_PATH):
-                remove_folder(os.path.join(UPLOAD_FOLDER_BASE, UPLOAD_FOLDER_MAIN))
-            os.makedirs(COMPLETED_UPLOAD_PATH)
             file.save(os.path.join(app.config['UPLOAD_PATH'], file.filename))
 
-    return jsonify({'message': 'Files successfully uploaded'}), 200
+
+    # Persistance
+    middle_aoi = request.args.get('middleAOIswitch')
+    aoi_bounding_box = request.args.get('boundingboxAOIswitch')
+    image_paths, videos_paths = filter_images_and_videos(COMPLETED_UPLOAD_PATH)
+    image_paths += videos_paths
+
+    # AOI configs and image files configs persistance
+    context = {
+            "checkboxes" : {
+                "middle_aoi": middle_aoi is not None,
+                "aoi_bounding_box": aoi_bounding_box is not None,
+                },
+            "files": image_paths,
+            "processed_images": None
+            }
+    
+    return render_template('index.html', context=context)
 
 
 @app.route("/run", methods=["GET"])
