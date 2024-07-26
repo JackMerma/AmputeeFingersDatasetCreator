@@ -31,14 +31,14 @@ def draw_circle(image, point, color = MAIN_PIXEL_COLOR):
     new_image = image.copy()
 
     # Drawing the point
-    cv2.circle(new_image, point, radius=3, color=color, thickness=-1)
+    cv2.circle(new_image, point, radius=7, color=color, thickness=-1)
     return new_image
 
 
 def draw_boundingbox(image, points, color = MAIN_PIXEL_COLOR):
     new_image = image.copy()
     p1, p2, p3, p4 = points
-    thickness = 2
+    thickness = 7
 
     # Drawing points
     cv2.line(new_image, p1, p2, color, thickness=thickness)
