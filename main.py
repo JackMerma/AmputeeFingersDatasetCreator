@@ -1,7 +1,7 @@
 from config import *
 from src.process.src import *
 from src.gui.main import *
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 import os
 
 app = Flask(__name__)
@@ -15,8 +15,11 @@ if not os.path.exists(COMPLETED_UPLOAD_PATH):
 
 @app.route("/upload", methods=["POST"])
 def upload_file():
+
+    message = ""
+
     if 'file' not in request.files:
-        return jsonify({'message': "No file part in the request"}), 400
+        message += "No file part in the request\n"
 
     files = request.files.getlist('file')
 
@@ -27,7 +30,7 @@ def upload_file():
 
     for file in files:
         if file.filename == '':
-            return jsonify({'message': 'No selected file'}), 400
+            message += "No selected file\n"
 
         if file:
             file.save(os.path.join(app.config['UPLOAD_PATH'], file.filename))
@@ -46,10 +49,11 @@ def upload_file():
                 "aoi_bounding_box": aoi_bounding_box is not None,
                 },
             "files": image_paths,
-            "processed_images": None
+            "processed_images": None,
+            "message": message
             }
     
-    return render_template('index.html', context=context)
+    return redirect(url_for('index', context=context))
 
 
 @app.route("/run", methods=["GET"])
@@ -92,24 +96,29 @@ def run_solution():
                 "aoi_bounding_box": aoi_bounding_box is not None,
                 },
             "files": image_paths,
-            "processed_images": image_completed_paths
+            "processed_images": image_completed_paths,
+            "message": ""
             }
-    
+
     return render_template('index.html', context=context)
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
 
-    context = {
-            "checkboxes" : {
-                "middle_aoi": False,
-                "aoi_bounding_box": False,
-                },
-            "files": None,
-            }
+    context = request.args.get('context', None)
 
-    return render_template("index.html", context=context)
+    if context:
+        context = eval(context)  # convert string back to dict, not recommended for actual production use
+    else:
+        context = {
+                "checkboxes" : {
+                    "middle_aoi": False,
+                    "aoi_bounding_box": False,
+                    },
+                "files": None,
+                }
+    return render_template('index.html', context=context)
 
 
 if __name__ == "__main__":

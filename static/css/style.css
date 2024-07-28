@@ -1,9 +1,15 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 .dropzone {
     border: 2px dashed #007bff;
     padding: 20px;
     text-align: center;
     color: #007bff;
 }
+
 .card-img-top {
     object-fit: cover;
     width: 100%;

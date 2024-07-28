@@ -1,6 +1,6 @@
-<div class="row h-100 w-100 p-0">
-    <div class="col-sm-3 pr-0">
-	<div class="h-75 pt-2 pl-2 w-100">
+<div class="row w-100 p-0 m-0" style="flex-grow: 1">
+    <div class="col-sm-3 p-0">
+	<div class="h-50 pt-2 pl-2 w-100">
 	    <div class="card border-primary h-100">
 		<div class="card-body text-primary text-center" {% if context.files != None %}style="overflow-y: scroll; height:400px;"{% endif %}>
 		    {% if context.files == None %}
@@ -9,7 +9,7 @@
 			<div class="dropzone" id="dropzone">
 			    Drag & drop files here or click to upload
 			</div>
-			<form id="uploadForm" method="post" enctype="multipart/form-data">
+			<form action="/upload" id="uploadForm" method="post" enctype="multipart/form-data">
 			    <input type="file" id="fileInput" name="file" multiple style="display: none;">
 			    <button type="submit" class="btn btn-primary mt-3">Upload</button>
 			</form>
@@ -28,7 +28,7 @@
 	    </div>
 	</div>
 
-	<div class="h-25">
+	<div class="h-50">
 	    <div class="h-100 pt-2 pl-2 pb-2">
 		<div class="card border-primary h-100">
 		    <div class="card-body text-primary m-0 p-0">

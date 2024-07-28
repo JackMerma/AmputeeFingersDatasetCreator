@@ -7,8 +7,9 @@
 	{% block head %}{% endblock %}
     </head>
     <body>
-	<div style="height: 100vh; width: 100vv" class="m-0 p-0">
+	<div style="width: 100vv; display: flex; flex-direction: column; height: 100%" class="m-0 p-0 container-fluid">
 	    {% block navbar %}{% endblock %}
+	    {% block message %}{% endblock %}
 	    {% block body %}{% endblock %}
 	</div>
     </body>
