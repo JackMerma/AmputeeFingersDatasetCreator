@@ -1,8 +1,8 @@
-<div class="row w-100 pt-2 m-0" style="flex-grow: 1">
+<div class="row w-100 pt-2 m-0" style="flex-grow: 1; height: 100vh;">
     <div class="col-sm-2 p-0">
 	<div class="h-100 pl-2 pb-2 w-100">
 	    <div class="card border-primary h-100">
-		<div class="card-body text-primary text-center" {% if context.files != None %}style="overflow-y: scroll; height:400px;"{% endif %}>
+		<div class="card-body text-primary text-center" style="overflow-y: auto; height: 100%;">
 		    {% if context.files == None %}
 		    <div class="container m-0 p-0 h-100 w-100">
 			<div class="dropzone" id="dropzone" style="height: 50%">
@@ -21,7 +21,9 @@
 		    {% else %}
 		    <ul class="list-group list-group-light">
 			{% for image_path in context.files %}
-			<li class="list-group-item border-0 rounded-4 list-group-item-info mb-2"><p class="h6 b-0 m-0">{{image_path}}</p></li>
+			<li class="list-group-item border-0 rounded-4 list-group-item-info mb-2">
+			    <p class="h6 b-0 m-0">{{image_path}}</p>
+			</li>
 			{% endfor %}
 		    </ul>
 		    {% endif %}
@@ -34,25 +36,8 @@
 	<div class="h-100 pl-2 pb-2">
 	    <div class="card border-primary h-100">
 		<div class="card-body text-primary m-0 p-0">
-		    <div class="card-body text-primary text-center p-0 m-0">
-
+		    <div class="card-body text-primary text-center p-0 m-0" style="overflow-y: auto; height: 100%;">
 			<form id="runSolution" method="get" action="/run">
-			    <div class="card border-success m-2 bg-success">
-				<div class="card-body text-primary">
-				    <div class="column form-check form-switch">
-					<input class="form-check-input" type="checkbox" role="switch" id="middleAOIswitch" name="middleAOIswitch" {% if context.checkboxes.middle_aoi %}checked{% endif %}>
-					<label class="form-check-label" for="middleAOIswitch" style="color: white;">Middle AOI point</label>
-				    </div>
-				</div>
-			    </div>
-			    <div class="card border-success m-2 bg-success">
-				<div class="card-body text-primary">
-				    <div class="form-check form-switch">
-					<input class="form-check-input" type="checkbox" role="switch" id="boundingboxAOIswitch" name="boundingboxAOIswitch" {% if context.checkboxes.aoi_bounding_box %}checked{% endif %}>
-					<label class="form-check-label" for="boundingboxAOIswitch" style="color: white;">AOI bounding box</label>
-				    </div>
-				</div>
-			    </div>
 			    <div class="card border-primary m-2">
 				<div class="card-body text-primary">
 				    <div class="form-check form-switch">
@@ -70,6 +55,22 @@
 					<div id="valueRangeAOI" class="form-range"></div>
 					<input type="hidden" id="aoiVMin" name="aoiVMin">
 					<input type="hidden" id="aoiVMax" name="aoiVMax">
+				    </div>
+				</div>
+				<div class="card border-success m-2 bg-success">
+				    <div class="card-body text-primary">
+					<div class="column form-check form-switch">
+					    <input class="form-check-input" type="checkbox" role="switch" id="middleAOIswitch" name="middleAOIswitch" {% if context.checkboxes.middle_aoi %}checked{% endif %}>
+					    <label class="form-check-label" for="middleAOIswitch" style="color: white;">Middle AOI point</label>
+					</div>
+				    </div>
+				</div>
+				<div class="card border-success m-2 bg-success">
+				    <div class="card-body text-primary">
+					<div class="form-check form-switch">
+					    <input class="form-check-input" type="checkbox" role="switch" id="boundingboxAOIswitch" name="boundingboxAOIswitch" {% if context.checkboxes.aoi_bounding_box %}checked{% endif %}>
+					    <label class="form-check-label" for="boundingboxAOIswitch" style="color: white;">AOI bounding box</label>
+					</div>
 				    </div>
 				</div>
 			    </div>
@@ -96,62 +97,60 @@
 			    <button type="submit" class="btn btn-primary">Run</button>
 			    <script>
 				document.addEventListener("DOMContentLoaded", function() {
-								    function updateHiddenInputs(slider, minInput, maxInput) {
-													slider.noUiSlider.on('update', function(values) {
-																	    document.getElementById(minInput).value = values[0];
-																	    document.getElementById(maxInput).value = values[1];
-																	});
-												    }
+				    function updateHiddenInputs(slider, minInput, maxInput) {
+					slider.noUiSlider.on('update', function(values) {
+					    document.getElementById(minInput).value = values[0];
+					    document.getElementById(maxInput).value = values[1];
+					});
+				    }
+				    function createSlider(elementId, min, max, start) {
+					const slider = document.getElementById(elementId);
+					noUiSlider.create(slider, {
+					    start: start,
+					    connect: true,
+					    range: {
+						'min': min,
+						'max': max
+					    },
+					    tooltips: [true, true],
+					    format: {
+						to: function(value) {
+						    return Math.round(value);
+						},
+						from: function(value) {
+						    return Number(value);
+						}
+					    }
+					});
+					return slider;
+				    }
 
-								    function createSlider(elementId, min, max, start) {
-													const slider = document.getElementById(elementId);
-													noUiSlider.create(slider, {
-																	    start: start,
-																	    connect: true,
-																	    range: {
-																						'min': min,
-																						'max': max
-																					    },
-																	    tooltips: [true, true],
-																	    format: {
-																						to: function(value) {
-																										    return Math.round(value);
-																										},
-																						from: function(value) {
-																										    return Number(value);
-																										}
-																					    }
-																	});
-													return slider;
-												    }
+				    // AOI Hue slider
+				    const hueRangeAOI = createSlider('hueRangeAOI', 0, 179, [{{ context.aoiH.min }}, {{ context.aoiH.max }}]);
+				    updateHiddenInputs(hueRangeAOI, 'aoiHMin', 'aoiHMax');
 
-								    // AOI Hue slider
-								    const hueRangeAOI = createSlider('hueRangeAOI', 0, 179, [{{ context.aoiH.min }}, {{ context.aoiH.max }}]);
-								    updateHiddenInputs(hueRangeAOI, 'aoiHMin', 'aoiHMax');
+				    // AOI Saturation slider
+				    const saturationRangeAOI = createSlider('saturationRangeAOI', 0, 255, [{{ context.aoiS.min }}, {{ context.aoiS.max }}]);
+				    updateHiddenInputs(saturationRangeAOI, 'aoiSMin', 'aoiSMax');
 
-								    // AOI Saturation slider
-								    const saturationRangeAOI = createSlider('saturationRangeAOI', 0, 255, [{{ context.aoiS.min }}, {{ context.aoiS.max }}]);
-								    updateHiddenInputs(saturationRangeAOI, 'aoiSMin', 'aoiSMax');
+				    // AOI Value slider
+				    const valueRangeAOI = createSlider('valueRangeAOI', 0, 255, [{{ context.aoiV.min }}, {{ context.aoiV.max }}]);
+				    updateHiddenInputs(valueRangeAOI, 'aoiVMin', 'aoiVMax');
 
-								    // AOI Value slider
-								    const valueRangeAOI = createSlider('valueRangeAOI', 0, 255, [{{ context.aoiV.min }}, {{ context.aoiV.max }}]);
-								    updateHiddenInputs(valueRangeAOI, 'aoiVMin', 'aoiVMax');
+				    // EOI Hue slider
+				    const hueRangeEOI = createSlider('hueRangeEOI', 0, 179, [{{ context.eoiH.min }}, {{ context.eoiH.max }}]);
+				    updateHiddenInputs(hueRangeEOI, 'eoiHMin', 'eoiHMax');
 
-								    // EOI Hue slider
-								    const hueRangeEOI = createSlider('hueRangeEOI', 0, 179, [{{ context.eoiH.min }}, {{ context.eoiH.max }}]);
-								    updateHiddenInputs(hueRangeEOI, 'eoiHMin', 'eoiHMax');
+				    // EOI Saturation slider
+				    const saturationRangeEOI = createSlider('saturationRangeEOI', 0, 255, [{{ context.eoiS.min }}, {{ context.eoiS.max }}]);
+				    updateHiddenInputs(saturationRangeEOI, 'eoiSMin', 'eoiSMax');
 
-								    // EOI Saturation slider
-								    const saturationRangeEOI = createSlider('saturationRangeEOI', 0, 255, [{{ context.eoiS.min }}, {{ context.eoiS.max }}]);
-								    updateHiddenInputs(saturationRangeEOI, 'eoiSMin', 'eoiSMax');
-
-								    // EOI Value slider
-								    const valueRangeEOI = createSlider('valueRangeEOI', 0, 255, [{{ context.eoiV.min }}, {{ context.eoiV.max }}]);
-								    updateHiddenInputs(valueRangeEOI, 'eoiVMin', 'eoiVMax');
-								});
+				    // EOI Value slider
+				    const valueRangeEOI = createSlider('valueRangeEOI', 0, 255, [{{ context.eoiV.min }}, {{ context.eoiV.max }}]);
+				    updateHiddenInputs(valueRangeEOI, 'eoiVMin', 'eoiVMax');
+				});
 			    </script>
 			</form>
-
 		    </div>
 		</div>
 	    </div>
@@ -163,15 +162,17 @@
 	    <div class="card border-primary h-100 w-100 m-0 p-0">
 		<div class="card-body text-primary h-100 w-100 p-0">
 		    {% if context.processed_images != None %}
-		    <div class="container mt-4">
-			<div class="row ml-2 mr-2">
-			    {% for image_path in context.processed_images %}
-			    <div class="col-md-3 mb-4 p-2" style="background-color: #D6EAF8;">
-				<div class="card">
-				    <img class="card-img-top img-fluid" src="{{ url_for('static', filename=image_path) }}" alt="Processed Image">
+		    <div class="card-body text-primary text-center h-100" style="overflow-y: auto;">
+			<div class="container mt-4 h-100">
+			    <div class="row ml-2 mr-2">
+				{% for image_path in context.processed_images %}
+				<div class="col-md-3 mb-4 p-2" style="background-color: #D6EAF8;">
+				    <div class="card">
+					<img class="card-img-top img-fluid" src="{{ url_for('static', filename=image_path) }}" alt="Processed Image">
+				    </div>
 				</div>
+				{% endfor %}
 			    </div>
-			    {% endfor %}
 			</div>
 		    </div>
 		    {% else %}
