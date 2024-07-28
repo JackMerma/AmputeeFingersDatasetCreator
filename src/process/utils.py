@@ -150,7 +150,10 @@ def label(image, path, aoi_values, eoi_values, m_aoi=True, bb_aoi=True):
     if not os.path.exists(COMPLETED_TEMP_PATH):
         os.makedirs(COMPLETED_TEMP_PATH)
 
-    write_image(result_image, os.path.join(COMPLETED_TEMP_PATH, f"{file_name}.AOI{extension}"))
+    # Writting files
+    write_image(result_image, os.path.join(COMPLETED_TEMP_PATH, f"{file_name}.result{extension}"))
+    write_image(aoi_mask, os.path.join(COMPLETED_TEMP_PATH, f"{file_name}.aoi{extension}"))
+    write_image(eoi_mask, os.path.join(COMPLETED_TEMP_PATH, f"{file_name}.eoi{extension}"))
 
     # Saving json file
     data = {
