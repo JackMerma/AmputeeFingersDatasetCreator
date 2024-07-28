@@ -162,17 +162,15 @@
 	    <div class="card border-primary h-100 w-100 m-0 p-0">
 		<div class="card-body text-primary h-100 w-100 p-0">
 		    {% if context.processed_images != None %}
-		    <div class="card-body text-primary text-center h-100" style="overflow-y: auto;">
-			<div class="container mt-4 h-100">
-			    <div class="row ml-2 mr-2">
-				{% for image_path in context.processed_images %}
-				<div class="col-md-3 mb-4 p-2" style="background-color: #D6EAF8;">
-				    <div class="card">
-					<img class="card-img-top img-fluid" src="{{ url_for('static', filename=image_path) }}" alt="Processed Image">
-				    </div>
+		    <div class="container mt-4 h-100">
+			<div class="row ml-2 mr-2">
+			    {% for image_path in context.processed_images %}
+			    <div class="col-md-3 mb-4 p-2" style="background-color: #D6EAF8;">
+				<div class="card">
+				    <img class="card-img-top img-fluid" src="{{ url_for('static', filename=image_path) }}" alt="Processed Image">
 				</div>
-				{% endfor %}
 			    </div>
+			    {% endfor %}
 			</div>
 		    </div>
 		    {% else %}
