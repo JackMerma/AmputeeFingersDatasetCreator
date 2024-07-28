@@ -2,13 +2,13 @@
 
 ## Table of contents
 
-1. [Introduction] (#intro)
-2. [Installation] (#installation)
-3. [How to use] (#usage)
-    1. [Upload data] (#upload)
-    2. [Configure the processing] (#configure)
-    3. [Processing results] (#results)
-4. [Notes] (#notes)
+1. [Introduction](#intro)
+2. [Installation](#installation)
+3. [How to use](#usage)
+    1. [Upload data](#upload)
+    2. [Configure the processing](#configure)
+    3. [Processing results](#results)
+4. [Notes](#notes)
 
 
 ## Introduction
