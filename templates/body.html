@@ -4,15 +4,16 @@
 	    <div class="card border-primary h-100">
 		<div class="card-body text-primary text-center" {% if context.files != None %}style="overflow-y: scroll; height:400px;"{% endif %}>
 		    {% if context.files == None %}
-		    <div class="container mt-5">
-			<h2 class="text-center">Drag & Drop File Upload</h2>
-			<div class="dropzone" id="dropzone">
+		    <div class="container m-0 p-0 h-100 w-100">
+			<div class="dropzone" id="dropzone" style="height: 85%">
 			    Drag & drop files here or click to upload
 			</div>
-			<form action="/upload" id="uploadForm" method="post" enctype="multipart/form-data">
-			    <input type="file" id="fileInput" name="file" multiple style="display: none;">
-			    <button type="submit" class="btn btn-primary mt-3">Upload</button>
-			</form>
+			<div class="m-0 p-0" style="height: 15%">
+			    <form class="w-100 h-100 m-0 p-0" action="/upload" id="uploadForm" method="post" enctype="multipart/form-data">
+				<input type="file" id="fileInput" name="file" multiple style="display: none;">
+				<button type="submit" class="btn btn-primary mt-3">Upload</button>
+			    </form>
+			</div>
 		    </div>
 		    <script>
 			uploadFiles();
