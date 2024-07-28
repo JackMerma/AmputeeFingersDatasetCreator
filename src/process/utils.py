@@ -92,7 +92,6 @@ def validate_file_path(file_path):
 
 
 def get_limits(aoi_limits):
-    print(aoi_limits)
     min_range = (int(aoi_limits[0][0]), int(aoi_limits[1][0]), int(aoi_limits[2][0]))
     max_range = (int(aoi_limits[0][1]), int(aoi_limits[1][1]), int(aoi_limits[2][1]))
     return min_range, max_range
@@ -119,7 +118,6 @@ def remove_folder(folder_name):
 def label(image, path, aoi_values, eoi_values, m_aoi=True, bb_aoi=True):
     # Applying filter for AOI
     aoi_min, aoi_max = get_limits(aoi_values)
-    print(aoi_min, aoi_max)
     aoi_mask = mask(image, aoi_min, aoi_max)
 
     # Getting aoi position and boundingbox
@@ -167,7 +165,5 @@ def label(image, path, aoi_values, eoi_values, m_aoi=True, bb_aoi=True):
                 }
             }
 
-    # Deleting existing labeling data
-    remove_folder(DATASETS_FOLDER)
     # Saving data
     save_json(data, file_name)

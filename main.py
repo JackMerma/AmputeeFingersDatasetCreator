@@ -54,17 +54,15 @@ def upload_file():
             "files": image_paths,
             "processed_images": None,
             "message": message,
-            "aoiH": {"min": 0, "max": 179},
-            "aoiS": {"min": 0, "max": 255},
-            "aoiV": {"min": 0, "max": 255},
-            "eoiH": {"min": 0, "max": 179},
-            "eoiS": {"min": 0, "max": 255},
-            "eoiV": {"min": 0, "max": 255},
+            "aoiH": {"min": 36, "max": 86},
+            "aoiS": {"min": 100, "max": 255},
+            "aoiV": {"min": 25, "max": 255},
+            "eoiH": {"min": 88, "max": 110},
+            "eoiS": {"min": 20, "max": 255},
+            "eoiV": {"min": 190, "max": 255},
             "files": image_paths,
             "processed_images": None,
             }
-
-    print(context)
     
     return redirect(url_for('index', context=context))
 
@@ -113,6 +111,9 @@ def run_solution():
         # Deleting existing output images
         remove_folder(os.path.join(UPLOAD_FOLDER_BASE, TEMP_FOLDER))
 
+        # Deleting dataset folder
+        remove_folder(DATASETS_FOLDER)
+
         # Processing images
         for image_path in image_paths:
             completed_path = os.path.join(COMPLETED_UPLOAD_PATH, image_path)
@@ -155,12 +156,12 @@ def index():
                     "middle_aoi": False,
                     "aoi_bounding_box": False,
                     },
-                "aoiH": {"min": 0, "max": 179},
-                "aoiS": {"min": 0, "max": 255},
-                "aoiV": {"min": 0, "max": 255},
-                "eoiH": {"min": 0, "max": 179},
-                "eoiS": {"min": 0, "max": 255},
-                "eoiV": {"min": 0, "max": 255},
+                "aoiH": {"min": 36, "max": 86},
+                "aoiS": {"min": 100, "max": 255},
+                "aoiV": {"min": 25, "max": 255},
+                "eoiH": {"min": 88, "max": 110},
+                "eoiS": {"min": 20, "max": 255},
+                "eoiV": {"min": 190, "max": 255},
                 "files": None,
                 }
 
