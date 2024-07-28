@@ -40,25 +40,6 @@ def upload_file():
     middle_aoi = request.args.get('middleAOIswitch')
     aoi_bounding_box = request.args.get('boundingboxAOIswitch')
 
-    # Getting HSV values for AOI and EOI
-    aoi_h_min = request.args.get('aoiHMin')
-    aoi_h_max = request.args.get('aoiHMax')
-    aoi_s_min = request.args.get('aoiSMin')
-    aoi_s_max = request.args.get('aoiSMax')
-    aoi_v_min = request.args.get('aoiVMin')
-    aoi_v_max = request.args.get('aoiVMax')
-
-    aoi_values = [[aoi_h_min, aoi_h_max], [aoi_s_min, aoi_s_max], [aoi_v_min, aoi_v_max]]
-
-    # Capturar eoiH, eoiS, eoiV
-    eoi_h_min = request.args.get('eoiHMin')
-    eoi_h_max = request.args.get('eoiHMax')
-    eoi_s_min = request.args.get('eoiSMin')
-    eoi_s_max = request.args.get('eoiSMax')
-    eoi_v_min = request.args.get('eoiVMin')
-    eoi_v_max = request.args.get('eoiVMax')
-
-    eoi_values = [[eoi_h_min, eoi_h_max], [eoi_s_min, eoi_s_max], [eoi_v_min, eoi_v_max]]
     image_paths, videos_paths = filter_images_and_videos(COMPLETED_UPLOAD_PATH)
     image_paths += videos_paths
     image_paths = None if image_paths != None and len(image_paths) == 0 else image_paths
@@ -73,12 +54,12 @@ def upload_file():
             "files": image_paths,
             "processed_images": None,
             "message": message,
-            "aoiH": {"min": aoi_h_min, "max": aoi_h_max},
-            "aoiS": {"min": aoi_s_min, "max": aoi_s_max},
-            "aoiV": {"min": aoi_v_min, "max": aoi_v_max},
-            "eoiH": {"min": eoi_h_min, "max": eoi_h_max},
-            "eoiS": {"min": eoi_s_min, "max": eoi_s_max},
-            "eoiV": {"min": eoi_v_min, "max": eoi_v_max},
+            "aoiH": {"min": 0, "max": 179},
+            "aoiS": {"min": 0, "max": 255},
+            "aoiV": {"min": 0, "max": 255},
+            "eoiH": {"min": 0, "max": 179},
+            "eoiS": {"min": 0, "max": 255},
+            "eoiV": {"min": 0, "max": 255},
             "files": image_paths,
             "processed_images": None,
             }
@@ -114,9 +95,6 @@ def run_solution():
     eoi_v_max = request.args.get('eoiVMax')
 
     eoi_values = [[eoi_h_min, eoi_h_max], [eoi_s_min, eoi_s_max], [eoi_v_min, eoi_v_max]]
-
-    print(aoi_values)
-    print(eoi_values)
 
     ###################
     # Processing data #
@@ -185,7 +163,6 @@ def index():
                 "eoiV": {"min": 0, "max": 255},
                 "files": None,
                 }
-    print("CONTEXT: ", context)
 
     return render_template('index.html', context=context)
 
