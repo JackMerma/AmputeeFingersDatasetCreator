@@ -91,12 +91,11 @@ def validate_file_path(file_path):
         raise Exception(f"Invalid file path [{file_path}]. {POST_RAISE_MESSAGE}")
 
 
-def get_aoi_limits():
-    return AOI_MIN_RANGE, AOI_MAX_RANGE
-
-
-def get_eoi_limits():
-    return EOI_MIN_RANGE, EOI_MAX_RANGE
+def get_limits(aoi_limits):
+    print(aoi_limits)
+    min_range = (int(aoi_limits[0][0]), int(aoi_limits[1][0]), int(aoi_limits[2][0]))
+    max_range = (int(aoi_limits[0][1]), int(aoi_limits[1][1]), int(aoi_limits[2][1]))
+    return min_range, max_range
 
 
 def save_json(data, file_name):
@@ -117,9 +116,10 @@ def remove_folder(folder_name):
         shutil.rmtree(folder_name)
 
 
-def label(image, path, m_aoi=True, bb_aoi=True):
+def label(image, path, aoi_values, eoi_values, m_aoi=True, bb_aoi=True):
     # Applying filter for AOI
-    aoi_min, aoi_max = get_aoi_limits()
+    aoi_min, aoi_max = get_limits(aoi_values)
+    print(aoi_min, aoi_max)
     aoi_mask = mask(image, aoi_min, aoi_max)
 
     # Getting aoi position and boundingbox
@@ -139,8 +139,8 @@ def label(image, path, m_aoi=True, bb_aoi=True):
         result_image = draw_boundingbox(result_image, aoi_mask_boundingbox)
 
     # Applying filter for EOI
-    #eoi_min, eoi_max = get_eoi_limits()
-    #eoi_mask = mask(image, eoi_min, eoi_max)
+    eoi_min, eoi_max = get_limits(eoi_values)
+    eoi_mask = mask(image, eoi_min, eoi_max)
 
     # Saving processed image in the temp/ folder
     file_name, extension = os.path.splitext(os.path.basename(path))
