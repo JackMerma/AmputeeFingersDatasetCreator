@@ -38,7 +38,7 @@ You can use the Drag & Drop left section to upload files. You can load any kind 
 
 This section is shown in the following image:
 
-![Upload section](#)
+![Upload section](https://github.com/JackMerma/AmputeeFingersDatasetCreator/blob/master/images/uploadSection.png)
 
 ### Configure the processing
 
@@ -46,7 +46,7 @@ You have the option to configure the AOI and EOI ranges and the visual feedback 
 
 This section is shown in the following image:
 
-![Config section](#)
+![Config section](https://github.com/JackMerma/AmputeeFingersDatasetCreator/blob/master/images/configsSection.png)
 
 ### Show the results
 
@@ -56,7 +56,7 @@ Additionally, you can review the labeling images JSONs in the `datasets/` folder
 
 This section is shown in the following image with some results:
 
-![Result section](#)
+![Result section](https://github.com/JackMerma/AmputeeFingersDatasetCreator/blob/master/images/resultSection.png)
 
 ## Note
 
