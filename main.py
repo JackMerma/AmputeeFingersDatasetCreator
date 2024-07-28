@@ -41,6 +41,8 @@ def upload_file():
     aoi_bounding_box = request.args.get('boundingboxAOIswitch')
     image_paths, videos_paths = filter_images_and_videos(COMPLETED_UPLOAD_PATH)
     image_paths += videos_paths
+    image_paths = None if image_paths != None and len(image_paths) == 0 else image_paths
+    message = None if message == "" else message
 
     # AOI configs and image files configs persistance
     context = {
@@ -52,6 +54,8 @@ def upload_file():
             "processed_images": None,
             "message": message
             }
+
+    print(context)
     
     return redirect(url_for('index', context=context))
 
@@ -118,6 +122,8 @@ def index():
                     },
                 "files": None,
                 }
+    print("CONTEXT: ", context)
+
     return render_template('index.html', context=context)
 
 
