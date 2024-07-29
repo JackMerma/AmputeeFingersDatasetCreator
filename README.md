@@ -77,4 +77,4 @@ This section is shown in the following image with some results:
 
 ## Note <a name="notes"></a>
 
-The web system is slow at processing a lot of images. In the next versions, the app will run as a desktop program or use a parser (with commands).
+The web system is slow at processing a lot of images. In the next versions, the app will run as a desktop program or use a parser (with commands). Also you can experiment with the images that are in the [test images][#] folder.
